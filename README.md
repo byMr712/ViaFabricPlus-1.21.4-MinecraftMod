@@ -10,6 +10,10 @@
 
 #### Fabric mod to connect to EVERY Minecraft server version (Release, Beta, Alpha, Classic, Snapshots, Bedrock) with QoL fixes to the gameplay
 
+> **Fork for Minecraft 1.21.4.** Ported by [byMr712](https://github.com/byMr712). In contrast to the original
+> ViaFabricPlus, which only supports the latest client, this fork keeps the 1.21.4 client while extending server
+> support up to **1.21.11**. Upstream: [ViaVersion/ViaFabricPlus](https://github.com/ViaVersion/ViaFabricPlus).
+
 </div>
 
 # Why another protocol translator?
@@ -22,12 +26,14 @@ At the time of writing, ViaFabricPlus is the only mod that supports joining all 
 first multiplayer version while implementing
 legacy combat mechanics, movement, and rendering changes to make the gameplay feel more like the old days.
 
-**On the other hand, ViaFabricPlus supports only the latest Minecraft client version, and only Fabric.**
-If you need ViaFabricPlus for older versions of the game, you can use [ViaFabric](https://viaversion.com/fabric)
+**On the other hand, this fork supports only the 1.21.4 Minecraft client, and only Fabric.**
+This fork updates the bundled Via libraries, which allows connecting to servers of any supported version —
+from the first multiplayer version up to **1.21.11**. Original upstream functionality regarding legacy combat,
+movement, and rendering changes remains unchanged.
 
 ## Supported Server versions
 
-- Release (1.0.0 - 1.21.5)
+- Release (1.0.0 - 1.21.11)
 - Beta (b1.0 - b1.8.1)
 - Alpha (a1.0.15 - a1.2.6)
 - Classic (c0.0.15 - c0.30 including [CPE](https://wiki.vg/Classic_Protocol_Extension))
