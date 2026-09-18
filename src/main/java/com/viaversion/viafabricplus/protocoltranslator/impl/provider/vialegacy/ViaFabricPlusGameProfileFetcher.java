@@ -29,7 +29,7 @@ import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
 import com.mojang.authlib.yggdrasil.ProfileResult;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import net.raphimc.vialegacy.protocol.release.r1_7_6_10tor1_8.model.GameProfile;
+import com.viaversion.viaversion.api.minecraft.GameProfile;
 import net.raphimc.vialegacy.protocol.release.r1_7_6_10tor1_8.provider.GameProfileFetcher;
 
 import java.net.Proxy;
@@ -44,7 +44,7 @@ public final class ViaFabricPlusGameProfileFetcher extends GameProfileFetcher {
     private static final GameProfileRepository GAME_PROFILE_REPOSITORY = AUTHENTICATION_SERVICE.createProfileRepository();
 
     @Override
-    public UUID loadMojangUUID(String playerName) throws Exception {
+    public UUID loadMojangUuid(String playerName) throws Exception {
         final CompletableFuture<com.mojang.authlib.GameProfile> future = new CompletableFuture<>();
         GAME_PROFILE_REPOSITORY.findProfilesByNames(new String[]{playerName}, new ProfileLookupCallback() {
             @Override
@@ -64,19 +64,19 @@ public final class ViaFabricPlusGameProfileFetcher extends GameProfileFetcher {
     }
 
     @Override
-    public GameProfile loadGameProfile(UUID uuid) {
+    public GameProfile loadGameProfile(UUID uuid) throws Exception {
         final ProfileResult result = SESSION_SERVICE.fetchProfile(uuid, true);
         if (result == null) {
             throw new ProfileNotFoundException();
         }
 
         final com.mojang.authlib.GameProfile authLibProfile = result.profile();
-        final GameProfile mcProfile = new GameProfile(authLibProfile.getName(), authLibProfile.getId());
-
+        final GameProfile.Property[] properties = new GameProfile.Property[authLibProfile.getProperties().size()];
+        int i = 0;
         for (final Map.Entry<String, Property> entry : authLibProfile.getProperties().entries()) {
-            mcProfile.addProperty(new GameProfile.Property(entry.getValue().name(), entry.getValue().value(), entry.getValue().signature()));
+            properties[i++] = new GameProfile.Property(entry.getValue().name(), entry.getValue().value(), entry.getValue().signature());
         }
-        return mcProfile;
+        return new GameProfile(authLibProfile.getName(), authLibProfile.getId(), properties);
     }
 
 }
